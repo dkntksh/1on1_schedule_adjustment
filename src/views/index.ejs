@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="/stylesheets/style.css" />
     </head>
     <body onload="init_view()">
+      <!--
         <div id="input-name">
           <label for="user-names">名前を改行して入力してください</label>
           <br>
@@ -33,7 +34,54 @@
             <label for=""><input type="checkbox" class="js-dow">祝日を日程に含まない</label>
           </div>
         </div>
-
+        -->
+        <div id="app">
+          <label for="user-names">名前を改行して入力してください</label>
+          <br>
+          <textarea id="user-names" name="user-names" cols="40" rows="10"></textarea>
+          <button id="name-pick" value="button1" v-on:click="clickMemberTable">表を作成する</button>
+        </div>
+        <div v-show="isDisplay" id="second-view">
+          <table></table>
+          <br>
+          <div>
+            <label>開始日：<input type="date" id="start-date"/></label>
+          </div>
+          <div>
+            対象の曜日
+            <label for=""><input type="checkbox" class="js-dow">月曜</label>
+            <label for=""><input type="checkbox" class="js-dow">火曜</label>
+            <label for=""><input type="checkbox" class="js-dow">水曜</label>
+            <label for=""><input type="checkbox" class="js-dow">木曜</label>
+            <label for=""><input type="checkbox" class="js-dow">金曜</label>
+            <label for=""><input type="checkbox" class="js-dow">土曜</label>
+            <label for=""><input type="checkbox" class="js-dow">日曜</label>
+          </div>
+          <div>
+            祝日を日程に含まない
+            <label for=""><input type="checkbox" class="js-dow">祝日を日程に含まない</label>
+          </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script><!-- 開発バージョンのvue.js -->
+        <script>
+          new Vue({
+            el: "#app",
+            data() {
+              return {
+                  isDisplay: false, // 開始日等を非表示
+              }
+            },
+            methods: {
+              clickMemberTable(){
+                window.alert('クリックしましたね')
+              }
+            },
+            mounted: function () {// 初期表示
+              console.log('mounted');
+              console.log(this.$el);
+            },
+          })
+        </script>
     </body>
 </html>
 <script>
