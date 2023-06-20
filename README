@@ -1,3 +1,24 @@
 参考としたサイト
 
 https://qiita.com/tanakaPH/items/84aedaad8c0f5958a5f0
+
+
+# Node.jsコンテナを起動するコマンド
+
+'''
+
+$ docker-compose run --rm app /bin/bash
+
+'''
+
+# Expressアプリケーションを起動
+
+'''
+
+$ docker-compose up
+
+'''
+
+# ローカルのブラウザ確認
+
+localhost:3000
