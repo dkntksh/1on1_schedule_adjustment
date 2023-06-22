@@ -6,43 +6,39 @@
         <link rel="stylesheet" href="/stylesheets/style.css" />
     </head>
     <body onload="init_view()">
-      <!--
-        <div id="input-name">
-          <label for="user-names">名前を改行して入力してください</label>
-          <br>
-          <textarea id="user-names" name="user-names" cols="40" rows="10"></textarea>
-          <button id="name-pick" value="button1" onclick="create_member_table()">表を作成する</button>
-        </div>
-        <div id="second-view">
-          <table></table>
-          <br>
-          <div>
-            <label>開始日：<input type="date" id="start-date"/></label>
-          </div>
-          <div>
-            対象の曜日
-            <label for=""><input type="checkbox" class="js-dow">月曜</label>
-            <label for=""><input type="checkbox" class="js-dow">火曜</label>
-            <label for=""><input type="checkbox" class="js-dow">水曜</label>
-            <label for=""><input type="checkbox" class="js-dow">木曜</label>
-            <label for=""><input type="checkbox" class="js-dow">金曜</label>
-            <label for=""><input type="checkbox" class="js-dow">土曜</label>
-            <label for=""><input type="checkbox" class="js-dow">日曜</label>
-          </div>
-          <div>
-            祝日を日程に含まない
-            <label for=""><input type="checkbox" class="js-dow">祝日を日程に含まない</label>
-          </div>
-        </div>
-        -->
         <div id="app">
           <label for="user-names">名前を改行して入力してください</label>
           <br>
-          <textarea id="user-names" name="user-names" cols="40" rows="10"></textarea>
+          <textarea v-model="users" cols="40" rows="10"></textarea>
           <button id="name-pick" value="button1" v-on:click="clickMemberTable">表を作成する</button>
         </div>
-        <div v-show="isDisplay" id="second-view">
-          <table></table>
+        <div v-if="isDisplay" id="second-view">
+          <table>
+            <thead>
+              <tr>
+                <th v-for="column in columns" :key="column.id">
+                  {{ column.userName }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="value in values" :key="value.id">
+                <template v-for="(id, index) in ids">
+                  <td>
+                    <template v-if="columns[index].component_name !== null">
+                      <component
+                        v-bind:is="columns[index].component_name"
+                        :array="[value[id]]"
+                      ></component>
+                    </template>
+                    <template v-else>
+                      {{ value[id] }}
+                    </template>
+                  </td>
+                </template>
+              </tr>
+            </tbody>
+          </table>
           <br>
           <div>
             <label>開始日：<input type="date" id="start-date"/></label>
@@ -69,16 +65,32 @@
             data() {
               return {
                   isDisplay: false, // 開始日等を非表示
+                  users: [],
+                  columns: [],
+                  values: [],
               }
             },
             methods: {
               clickMemberTable(){
-                window.alert('クリックしましたね')
+
+
+                let columnsObj = []
+                let usersArray = this.users.split(/\r?\n/g);
+                
+                usersArray.forEach((user, index) => {
+                  columnsObj[index] = {id: index, userName: user};
+                })
+                
+                this.columns = columnsObj;
+                console.log(this.columns)
+                
+                // テーブルの表示
+                this.isDisplay = true
               }
             },
             mounted: function () {// 初期表示
-              console.log('mounted');
-              console.log(this.$el);
+              // console.log('mounted');
+              // console.log(this.$el);
             },
           })
         </script>
